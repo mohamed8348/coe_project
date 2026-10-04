@@ -3,15 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import logging
 
-from .routers import bugs, scenarios, approvals
+from .routers import bugs, scenarios, approvals, evaluation
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title='ERP Bug-Reproduction Assistant API',
-    version='1.0.0',
-    description='Automated assistant to generate reproducible scenarios for ERP systems.'
+    title="ERP Bug-Reproduction Assistant API",
+    version="1.0.0",
+    description="Automated assistant to generate reproducible scenarios for ERP systems."
 )
 
 app.add_middleware(
@@ -22,9 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Routers
 app.include_router(bugs.router)
 app.include_router(scenarios.router)
 app.include_router(approvals.router)
+app.include_router(evaluation.router)
 
 @app.on_event("startup")
 async def startup_event():
